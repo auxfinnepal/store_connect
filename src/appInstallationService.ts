@@ -1,4 +1,4 @@
-import { NetworkError, ValidationError, AppInstallationError } from "./errors";
+import { AppInstallationError, NetworkError, ValidationError } from "./errors";
 
 export interface CreateAppInstallationParams {
   ip_address: string;
@@ -7,7 +7,9 @@ export interface CreateAppInstallationParams {
   device_id: string;
   longitude: number;
   latitude: number;
-  app_product_id: number;
+  app_product_id?: number;
+  product_package_name?: string;
+  app_version: string;
 }
 
 export interface AppInstallationResponse {
@@ -62,6 +64,9 @@ export async function createAppInstallation(
     if (error instanceof NetworkError || error instanceof ValidationError) {
       throw error;
     }
-    throw new AppInstallationError("Failed to create app installation record", error);
+    throw new AppInstallationError(
+      "Failed to create app installation record",
+      error,
+    );
   }
 }

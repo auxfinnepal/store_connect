@@ -19,10 +19,17 @@ export interface AppUpdateResponse {
   mandatory?: boolean;
   downloadUrl?: string;
   websiteUrl?: string;
+  version?: string;
   [key: string]: unknown;
 }
 
-export type UpdateState = "idle" | "checking" | "hidden" | "available" | "downloading" | "error";
+export type UpdateState =
+  | "idle"
+  | "checking"
+  | "hidden"
+  | "available"
+  | "downloading"
+  | "error";
 
 export interface UseAppUpdateReturn {
   updateState: UpdateState;
@@ -34,7 +41,7 @@ export interface UseAppUpdateReturn {
   response: AppUpdateResponse | null;
   checkForUpdate: () => Promise<void>;
   updateNow: () => Promise<void>;
-  openWebsite: () => Promise<void>;
+  openWebsite: (url?: string) => Promise<void>;
   handleLater: () => void;
   retry: () => Promise<void>;
   downloading: boolean;

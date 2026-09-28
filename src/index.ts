@@ -24,6 +24,7 @@ export type {
 
 export type {
   CreateAppLoginParams,
+  CreateAppLoginOptions,
   AppLoginResponse,
 } from "./appLoginService";
 

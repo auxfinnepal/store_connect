@@ -28,7 +28,7 @@ All notable changes to this project will be documented in this file.
 
 No changes required! Continue using:
 ```bash
-npm install rojma-app
+npm install umva-appstore-connect
 npx expo install expo-file-system expo-intent-launcher expo-linking
 ```
 
@@ -36,7 +36,7 @@ npx expo install expo-file-system expo-intent-launcher expo-linking
 
 New support! Install with:
 ```bash
-npm install rojma-app react-native-fs
+npm install umva-appstore-connect react-native-fs
 ```
 
 Add to `AndroidManifest.xml`:

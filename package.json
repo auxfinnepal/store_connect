@@ -1,5 +1,5 @@
 {
-  "name": "app-connect",
+  "name": "umva-appstore-connect",
   "version": "1.0.0",
   "description": "Android app update checker, APK downloader, and APK installer for Expo and React Native CLI apps",
   "main": "dist/index.js",

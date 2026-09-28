@@ -132,10 +132,10 @@ export class RNIntentLauncherAdapter implements IntentLauncherAdapter {
         );
 
         if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-          console.warn("[rojma-app-update] ⚠️ Install permission not granted");
+          console.warn("[umva-appstore-connect] ⚠️ Install permission not granted");
         }
       } catch (err) {
-        console.warn("[rojma-app-update] ⚠️ Permission request error:", err);
+        console.warn("[umva-appstore-connect] ⚠️ Permission request error:", err);
       }
     }
 
@@ -152,7 +152,7 @@ export class RNIntentLauncherAdapter implements IntentLauncherAdapter {
         return;
       }
     } catch (error) {
-      console.warn("[rojma-app-update] ⚠️ SendIntentAndroid not available, trying Linking");
+      console.warn("[umva-appstore-connect] ⚠️ SendIntentAndroid not available, trying Linking");
     }
 
     // Fallback to Linking API

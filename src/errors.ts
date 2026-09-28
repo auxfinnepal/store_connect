@@ -63,3 +63,19 @@ export class ValidationError extends AppUpdateError {
     Object.setPrototypeOf(this, ValidationError.prototype);
   }
 }
+
+export class AppLoginError extends AppUpdateError {
+  constructor(message: string, cause?: unknown) {
+    super(message, cause);
+    this.name = "AppLoginError";
+    Object.setPrototypeOf(this, AppLoginError.prototype);
+  }
+}
+
+export class AppInstallationError extends AppUpdateError {
+  constructor(message: string, cause?: unknown) {
+    super(message, cause);
+    this.name = "AppInstallationError";
+    Object.setPrototypeOf(this, AppInstallationError.prototype);
+  }
+}

@@ -1,4 +1,4 @@
-# rojma-app
+# umva-appstore-connect
 
 Android app update checker, APK downloader, and installer for **Expo** and **React Native CLI** apps.
 
@@ -10,6 +10,8 @@ Android app update checker, APK downloader, and installer for **Expo** and **Rea
 ✅ **APK Download** - Download APK files with real-time progress (0-1)  
 ✅ **APK Installation** - Launch Android APK installer  
 ✅ **Mandatory & Optional Updates** - Support both update types  
+✅ **App Login Tracking** - Create app login records via API  
+✅ **App Installation Tracking** - Create app installation records via API  
 ✅ **Error Handling** - Typed error classes for different scenarios  
 ✅ **TypeScript** - Full TypeScript support with strong typing  
 ✅ **Zero Hardcoding** - Everything is configurable
@@ -19,14 +21,14 @@ Android app update checker, APK downloader, and installer for **Expo** and **Rea
 ### Expo Projects
 
 ```bash
-npm install rojma-app
+npm install umva-appstore-connect
 npx expo install expo-file-system expo-intent-launcher expo-linking
 ```
 
 ### React Native CLI Projects
 
 ```bash
-npm install rojma-app react-native-fs
+npm install umva-appstore-connect react-native-fs
 ```
 
 **Add to `android/app/src/main/AndroidManifest.xml`:**
@@ -47,7 +49,7 @@ npm install react-native-send-intent
 ### Expo Example
 
 ```tsx
-import { useAppUpdate } from "rojma-app";
+import { useAppUpdate } from "umva-appstore-connect";
 import Constants from "expo-constants";
 
 function App() {
@@ -76,7 +78,7 @@ function App() {
 ### React Native CLI Example
 
 ```tsx
-import { useAppUpdate } from "rojma-app";
+import { useAppUpdate } from "umva-appstore-connect";
 import { version } from "../package.json";
 
 function App() {
@@ -126,6 +128,116 @@ const {
   downloadProgress, // number | null (0-1)
 } = useAppUpdate(config);
 ```
+
+### createAppLogin(baseUrl, params)
+
+Creates an app login record on your backend.
+
+```typescript
+import { createAppLogin, CreateAppLoginParams, AppLoginResponse, AppLoginError } from "umva-appstore-connect";
+
+const params: CreateAppLoginParams = {
+  ip_address: "192.168.1.1",
+  country: "BI",
+  downloaded_by: "test.user",
+  device_id: "12334Cs",
+  longitude: "1.02",
+  latitude: "2.90",
+  app_product_id: 11,
+  app_version: "1.1.4",
+};
+
+try {
+  const response: AppLoginResponse = await createAppLogin("http://192.168.111.163:5800", params);
+  console.log("Login created:", response);
+} catch (error) {
+  if (error instanceof AppLoginError) {
+    console.error("Failed to create app login:", error.message);
+  }
+}
+```
+
+**Parameters:**
+
+```typescript
+interface CreateAppLoginParams {
+  ip_address: string;      // User IP address
+  country: string;         // Country code
+  downloaded_by: string;   // User identifier
+  device_id: string;       // Device identifier
+  longitude: string;       // Longitude coordinate
+  latitude: string;        // Latitude coordinate
+  app_product_id: number;  // Product/app ID
+  app_version: string;     // App version string
+}
+```
+
+**Response:**
+
+```typescript
+interface AppLoginResponse {
+  success: boolean;
+  message?: string;
+  data?: unknown;
+  [key: string]: unknown;
+}
+```
+
+The function sends a POST request with `Content-Type: application/json` to `{baseUrl}/app-login/create` and returns the parsed JSON response.
+
+### createAppInstallation(baseUrl, params)
+
+Creates an app installation record on your backend.
+
+```typescript
+import { createAppInstallation, CreateAppInstallationParams, AppInstallationResponse, AppInstallationError } from "umva-appstore-connect";
+
+const params: CreateAppInstallationParams = {
+  ip_address: "192.168.1.1",
+  country: "BI",
+  downloaded_by: "test.user",
+  device_id: "12334Cs",
+  longitude: 0.12,
+  latitude: 8.00,
+  app_product_id: 7,
+};
+
+try {
+  const response: AppInstallationResponse = await createAppInstallation("http://192.168.111.163:5800", params);
+  console.log("Installation created:", response);
+} catch (error) {
+  if (error instanceof AppInstallationError) {
+    console.error("Failed to create app installation:", error.message);
+  }
+}
+```
+
+**Parameters:**
+
+```typescript
+interface CreateAppInstallationParams {
+  ip_address: string;      // User IP address
+  country: string;         // Country code
+  downloaded_by: string;   // User identifier
+  device_id: string;       // Device identifier
+  longitude: number;       // Longitude coordinate
+  latitude: number;        // Latitude coordinate
+  app_product_id: number;  // Product/app ID
+}
+```
+
+**Response:**
+
+```typescript
+interface AppInstallationResponse {
+  success: boolean;
+  message?: string;
+  data?: unknown;
+  [key: string]: unknown;
+}
+```
+
+The function sends a POST request with `Content-Type: application/json` to `{baseUrl}/app-installation/create` and returns the parsed JSON response.
 
 ### Configuration
 
@@ -214,7 +326,7 @@ const { isMandatory, handleLater } = useAppUpdate({
 ### Error Handling
 
 ```tsx
-import { NetworkError, DownloadError } from "rojma-app";
+import { NetworkError, DownloadError } from "umva-appstore-connect";
 
 const { error, errorMessage, retry } = useAppUpdate({
   // ... config
@@ -238,7 +350,9 @@ import {
   InstallationError,   // APK installation failed
   NetworkError,        // Network request failed
   ValidationError,     // Response validation failed
-} from "rojma-app";
+  AppLoginError,       // App login record creation failed
+  AppInstallationError,// App installation record creation failed
+} from "umva-appstore-connect";
 ```
 
 ## Platform Differences
@@ -263,7 +377,11 @@ import type {
   AppUpdateResponse,
   UpdateState,
   UseAppUpdateReturn,
-} from "rojma-app";
+  CreateAppLoginParams,
+  AppLoginResponse,
+  CreateAppInstallationParams,
+  AppInstallationResponse,
+} from "umva-appstore-connect";
 ```
 
 ## Troubleshooting

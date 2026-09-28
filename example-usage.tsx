@@ -3,7 +3,7 @@
  * Works with both Expo and React Native CLI
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -12,8 +12,9 @@ import {
   StyleSheet,
   ActivityIndicator,
   Platform,
+  Alert,
 } from "react-native";
-import { useAppUpdate } from "rojma-app";
+import { useAppUpdate, createAppLogin, createAppInstallation } from "umva-appstore-connect";
 
 // For Expo:
 // import Constants from "expo-constants";
@@ -195,6 +196,47 @@ export default function App() {
       console.log(`📥 Download: ${Math.round(progress * 100)}%`);
     },
   });
+
+  useEffect(() => {
+    const logAppLogin = async () => {
+      try {
+        await createAppLogin("https://api.example.com", {
+          ip_address: "192.168.1.1",
+          country: "BI",
+          downloaded_by: "test.user",
+          device_id: "12334Cs",
+          longitude: "1.02",
+          latitude: "2.90",
+          app_product_id: 11,
+          app_version: APP_VERSION,
+        });
+      } catch (error) {
+        console.error("Failed to log app login:", error);
+      }
+    };
+
+    logAppLogin();
+  }, []);
+
+  useEffect(() => {
+    const logAppInstallation = async () => {
+      try {
+        await createAppInstallation("https://api.example.com", {
+          ip_address: "192.168.1.1",
+          country: "BI",
+          downloaded_by: "test.user",
+          device_id: "12334Cs",
+          longitude: 0.12,
+          latitude: 8.00,
+          app_product_id: 7,
+        });
+      } catch (error) {
+        console.error("Failed to log app installation:", error);
+      }
+    };
+
+    logAppInstallation();
+  }, []);
 
   const showModal =
     updateState === "available" ||

@@ -10,7 +10,7 @@
  *   AppUpdateConfig,
  *   UpdateState,
  *   UpdateAvailableModalProps
- * } from 'rojma-app/types-reference';
+ * } from 'umva-appstore-connect/types-reference';
  * ```
  */
 
